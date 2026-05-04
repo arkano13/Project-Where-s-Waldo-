@@ -7,14 +7,15 @@ import cors from "cors";
 
 const app = express();
 
+app.use(cors({
+  origin: "http://localhost:5173", 
+  credentials: true,
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin: "http://localhost:5173", // tu Vite dev server
-  credentials: true,
-}));
+
 
 app.use("/api/players", playerRouter);
 app.use("/api/characters", characterRouter);

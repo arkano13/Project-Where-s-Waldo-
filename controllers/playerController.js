@@ -7,7 +7,11 @@ import {
 const playersGet = async (req, res) => {
   try {
     const players = await getAllPlayers();
-    res.status(200).json(players);
+    const serialized = players.map(p => ({
+      ...p,
+      finishTime: Number(p.finishTime)
+    }));
+    res.status(200).json(serialized);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
@@ -38,7 +42,7 @@ const postFinalTimeController = async (req, res) => {
     res.clearCookie("gameId");
     res.status(200).json({
       ...finalTime,
-      finishTime: Number(finalTime.finishTime)
+      finishTime: Number(finalTime.finishTime),
     });
   } catch (err) {
     console.error("Error en postFinalTimeController:", err);
