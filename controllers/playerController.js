@@ -7,9 +7,9 @@ import {
 const playersGet = async (req, res) => {
   try {
     const players = await getAllPlayers();
-    const serialized = players.map(p => ({
+    const serialized = players.map((p) => ({
       ...p,
-      finishTime: Number(p.finishTime)
+      finishTime: Number(p.finishTime),
     }));
     res.status(200).json(serialized);
   } catch (err) {
@@ -22,8 +22,9 @@ const postInitTimeController = async (req, res) => {
     const player = await postInitTime();
     res.cookie("gameId", player.id, {
       httpOnly: true,
-      sameSite: "lax",
-      maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "none",
+      secure: true,
+      maxAge: 1000 * 60 * 60,
     });
     res.status(201).json(player);
   } catch (err) {
